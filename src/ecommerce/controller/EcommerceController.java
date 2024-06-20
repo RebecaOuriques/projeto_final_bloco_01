@@ -34,10 +34,14 @@ public class EcommerceController implements EcomerceRepository{
 
 	@Override
 	public void deletar(int numero) {
-		produtoLista.remove(numero);
-		int numero2 = numero + 1;
-		System.out.println("Produto " + numero2 + " removido");
-	}
+		var produto = buscarNaCollection(numero);
+		if (produto != null) {
+			if(produtoLista.remove(produto) == true)
+		System.out.println("\nProduto número " + numero + " removido");
+	} else {
+		System.out.println("\nProduto número " + numero + " não foi encontrado!");
+	} 
+		}
 
 	@Override
 	public void vender(int numero, float valor) {
@@ -54,5 +58,13 @@ public class EcommerceController implements EcomerceRepository{
 	public int gerarNumero() {
 		return ++numero;
 	}
-
+	
+	public Produto buscarNaCollection (int numero){
+		for (var produto : produtoLista) {
+			if(produto.getNumero() == numero) {
+				return produto;
+			}
+		}
+		return null;
+	}
 }
