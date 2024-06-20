@@ -12,7 +12,6 @@ public interface EcomerceRepository{
 	public void deletar(int numero);
 	
 	//Métodos
-	public void vender(int numero, float valor);
-	public void devolver(int numero, float valor);
+	public void vender(int numero);
 	
 }

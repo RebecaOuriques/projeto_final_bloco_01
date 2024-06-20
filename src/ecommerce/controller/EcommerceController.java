@@ -11,7 +11,11 @@ public class EcommerceController implements EcomerceRepository{
 	
 	@Override
 	public void procurarPorNumero(int numero) {
-		// TODO Auto-generated method stub
+		var produto = buscarNaCollection(numero);
+		if (produto != null) {
+			produto.visualizar();
+		} else 
+			System.out.println("\nO produto número " + numero + "não foi encontrado!");
 		
 	}
 
@@ -29,7 +33,12 @@ public class EcommerceController implements EcomerceRepository{
 
 	@Override
 	public void atualizar(Produto produto) {
-		
+		var buscarProduto = buscarNaCollection(produto.getNumero());
+		if(buscarProduto != null) {
+			produtoLista.set(produtoLista.indexOf(buscarProduto), produto);
+			System.out.println("\nO produto número: " + produto.getNumero() + "foi atualizado com sucesso!");
+		} else
+			System.out.println("\nA Conta número: " + produto.getNumero() + "não foi encontrada!");
 	}
 
 	@Override
@@ -44,16 +53,15 @@ public class EcommerceController implements EcomerceRepository{
 		}
 
 	@Override
-	public void vender(int numero, float valor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void devolver(int numero, float valor) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void vender(int numero) {
+		var produto = buscarNaCollection(numero);
+		if (produto != null) {
+			if(produtoLista.remove(produto) == true)
+		System.out.println("\nProduto número " + numero + " foi vendido, no valor de R$: " + produto.getValor());
+	} else {
+		System.out.println("\nProduto número " + numero + " não foi encontrado!");
+	} 
+		}		
 	
 	public int gerarNumero() {
 		return ++numero;
@@ -67,4 +75,6 @@ public class EcommerceController implements EcomerceRepository{
 		}
 		return null;
 	}
+	
+	
 }

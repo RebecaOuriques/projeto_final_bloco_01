@@ -31,9 +31,11 @@ public class Menu {
 		System.out.println("\n*********************************************");
 		System.out.println("           1 - Cadastrar um novo produto       ");
 		System.out.println("           2 - Listar os produtos              ");
-		System.out.println("           3 - Atualizar um produto            ");
-		System.out.println("           4 - Deletar um produto              ");
-		System.out.println("           5 - Sair do programa                ");
+		System.out.println("           3 - Consultar o produto por número  ");
+		System.out.println("           4 - Atualizar um produto            ");
+		System.out.println("           5 - Deletar um produto              ");
+		System.out.println("           6 - Vender produto                  ");
+		System.out.println("           7 - Sair do programa                ");
 		System.out.println("\n*********************************************");
 
 		do {
@@ -52,9 +54,11 @@ public class Menu {
 					if (tipo == 1) {
 
 						System.out.println("Informe o titulo do livro que deseja cadastrar:");
-						produto = leia.next();
+						leia.skip("\\R?");
+						produto = leia.nextLine();
 						System.out.println("Informe o gênero do livro que deseja cadastrar:");
-						genero = leia.next();
+						leia.skip("\\R?");
+						genero = leia.nextLine();
 						System.out.println("Informe a quantidade de páginas do livro que deseja cadastrar:");
 						pagina = leia.nextInt();
 						System.out.println("Informe o valor do livro que deseja cadastrar:");
@@ -65,9 +69,11 @@ public class Menu {
 
 					} else if (tipo == 2) {
 						System.out.println("Informe o titulo da revista que deseja cadastrar:");
-						produto = leia.next();
+						leia.skip("\\R?");
+						produto = leia.nextLine();
 						System.out.println("Informe o tema da revista que deseja cadastrar:");
-						tema = leia.next();
+						leia.skip("\\R?");
+						tema = leia.nextLine();
 						System.out.println("Informe a quantidade de páginas da revista que deseja cadastrar:");
 						pagina = leia.nextInt();
 						System.out.println("Informe o valor da revista que deseja cadastrar:");
@@ -87,20 +93,77 @@ public class Menu {
 				itens.listarTodos();
 				keyPress();
 				break;
+
 			case 3:
-				System.out.println("Informe qual produto deseja atualizar:");
+				System.out.println("Informe o número do produto que deseja consultar:");
+				numero = leia.nextInt();
+				itens.procurarPorNumero(numero);
 
 				keyPress();
 				break;
 
 			case 4:
+				System.out.println("Informe o núemro do produto que deseja atualizar:");
+				numero = leia.nextInt();
+				var buscarProduto = itens.buscarNaCollection(numero);
+				tipo = buscarProduto.getTipo();
+
+				if (buscarProduto != null)
+
+					if (tipo >= 1 && tipo <= 2) {
+						if (tipo == 1) {
+
+							System.out.println("Informe o titulo do livro que deseja atualizar:");
+							leia.skip("\\R?");
+							produto = leia.nextLine();
+							System.out.println("Informe o gênero do livro que deseja atualizar:");
+							leia.skip("\\R?");
+							genero = leia.nextLine();
+							System.out.println("Informe a quantidade de páginas do livro que deseja atualizar:");
+							pagina = leia.nextInt();
+							System.out.println("Informe o valor do livro que deseja atualizar:");
+							valor = leia.nextFloat();
+							System.out.println("\n");
+
+							itens.cadastrar(new Livro(itens.gerarNumero(), tipo, produto, pagina, valor, genero));
+
+						} else if (tipo == 2) {
+							System.out.println("Informe o titulo da revista que deseja atualizar:");
+							leia.skip("\\R?");
+							produto = leia.nextLine();
+							System.out.println("Informe o tema da revista que deseja atualizar:");
+							leia.skip("\\R?");
+							tema = leia.nextLine();
+							System.out.println("Informe a quantidade de páginas da revista que deseja atualizar:");
+							pagina = leia.nextInt();
+							System.out.println("Informe o valor da revista que deseja atualizar:");
+							valor = leia.nextFloat();
+							System.out.println("\n");
+							itens.cadastrar(new Revista(itens.gerarNumero(), tipo, produto, pagina, valor, tema));
+						}
+					} else {
+						System.out.println("Opção inválida, escolha a opção 1 ou 2!");
+					}
+
+				keyPress();
+				break;
+
+			case 5:
 				System.out.println("Informe qual produto deseja deletar:?");
 				numero = leia.nextInt();
-				numero = numero - 1;
 				itens.deletar(numero);
 				keyPress();
 				break;
-			case 5:
+
+			case 6:
+				System.out.println("Informe qual produto deseja vender:?");
+				numero = leia.nextInt();
+				itens.vender(numero);
+
+				keyPress();
+				break;
+
+			case 7:
 				System.out.println("Obrigada utilizar nosso programa! \nVolte sempre!");
 
 				keyPress();
@@ -113,7 +176,7 @@ public class Menu {
 
 			}
 
-		} while (opcao != 5);
+		} while (opcao != 7);
 
 		leia.close();
 
