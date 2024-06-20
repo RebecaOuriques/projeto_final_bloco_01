@@ -1,17 +1,30 @@
 package ecomerce;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
+
+import ecomerce.model.Livro;
+import ecomerce.model.Revista;
+import ecommerce.controller.EcommerceController;
 
 public class Menu {
 
 	public static void main(String[] args) {
 		Scanner leia = new Scanner(System.in);
-		ArrayList<String> produto = new ArrayList<String>();
-		int opcao, tipo, pagina;
+		EcommerceController itens = new EcommerceController();
+
+		int opcao, tipo, pagina, numero;
 		float valor;
-		String nomeProduto, genero;
+		String produto, genero, tema;
+
+		Livro l1 = new Livro(itens.gerarNumero(), 1, "Amor", 100, 100.0f, "Aventura");
+		itens.cadastrar(l1);
+		Livro l2 = new Livro(itens.gerarNumero(), 1, "Vida", 200, 150.0f, "Romance");
+		itens.cadastrar(l2);
+		Revista r1 = new Revista(itens.gerarNumero(), 2, "Out", 50, 35.0f, "Cultura");
+		itens.cadastrar(r1);
+		Revista r2 = new Revista(itens.gerarNumero(), 2, "Style", 30, 15.0f, "Moda");
+		itens.cadastrar(r2);
 
 		System.out.println("\n*********************************************");
 		System.out.println("     Bem-vinde a Livraria Floreios e Borrões   ");
@@ -39,7 +52,7 @@ public class Menu {
 					if (tipo == 1) {
 
 						System.out.println("Informe o titulo do livro que deseja cadastrar:");
-						nomeProduto = leia.next();
+						produto = leia.next();
 						System.out.println("Informe o gênero do livro que deseja cadastrar:");
 						genero = leia.next();
 						System.out.println("Informe a quantidade de páginas do livro que deseja cadastrar:");
@@ -48,16 +61,19 @@ public class Menu {
 						valor = leia.nextFloat();
 						System.out.println("\n");
 
+						itens.cadastrar(new Livro(itens.gerarNumero(), tipo, produto, pagina, valor, genero));
+
 					} else if (tipo == 2) {
 						System.out.println("Informe o titulo da revista que deseja cadastrar:");
-						nomeProduto = leia.next();
-						System.out.println("Informe o gênero da revista que deseja cadastrar:");
-						genero = leia.next();
+						produto = leia.next();
+						System.out.println("Informe o tema da revista que deseja cadastrar:");
+						tema = leia.next();
 						System.out.println("Informe a quantidade de páginas da revista que deseja cadastrar:");
 						pagina = leia.nextInt();
 						System.out.println("Informe o valor da revista que deseja cadastrar:");
 						valor = leia.nextFloat();
 						System.out.println("\n");
+						itens.cadastrar(new Revista(itens.gerarNumero(), tipo, produto, pagina, valor, tema));
 					}
 				} else {
 					System.out.println("Opção inválida, escolha a opção 1 ou 2!");
@@ -68,7 +84,7 @@ public class Menu {
 
 			case 2:
 				System.out.println("Seguem os produtos contidos na lista:");
-
+				itens.listarTodos();
 				keyPress();
 				break;
 			case 3:
@@ -79,7 +95,9 @@ public class Menu {
 
 			case 4:
 				System.out.println("Informe qual produto deseja deletar:?");
-
+				numero = leia.nextInt();
+				numero = numero - 1;
+				itens.deletar(numero);
 				keyPress();
 				break;
 			case 5:
